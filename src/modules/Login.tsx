@@ -1,25 +1,20 @@
-import { Button, Card, OutlinedInput, Stack, TextField, Typography } from '@mui/material'
+import { useLoginStyles } from '@/styles/useStyles/loginStyles'
+import { useTheme } from '@/theme/ThemeProvider'
+import { Button, Stack, TextField, Typography } from '@mui/material'
 import React from 'react'
 
 const Login = () => {
 
+  const classes = useLoginStyles()
 
+  const { toggleTheme } = useTheme()
 
   return (
     <div
-      style={{
-        width: 400,
-        margin: '80px auto'
-      }}
+      className={classes.content}
     >
       <div
-        style={{
-          width: '100%',
-          padding: '64px 24px',
-          backgroundColor: '#ffffff',
-          borderRadius: 3,
-          boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
-        }}
+        className={classes.card}
       >
         <Stack spacing={2}>
           <Typography variant='h4'>Welcome</Typography>
@@ -30,6 +25,7 @@ const Login = () => {
             size='small'
           />
           <TextField
+            type='password'
             placeholder='Type your password'
             label='Password'
             size='small'
@@ -42,12 +38,14 @@ const Login = () => {
             }}
           >Login</Button>
           <Button
+            color='secondary'
             size='small'
             sx={{
               textTransform: 'none'
             }}
           >Sign in</Button>
         </Stack>
+        <Button onClick={toggleTheme}>click me</Button >
       </div>
     </div>
   )
