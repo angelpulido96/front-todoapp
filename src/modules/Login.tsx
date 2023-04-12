@@ -1,20 +1,20 @@
 import { useLoginStyles } from '@/styles/useStyles/loginStyles'
-import { useTheme } from '@/theme/ThemeProvider'
-import { Button, Stack, TextField, Typography } from '@mui/material'
+import { Button, Card, Stack, TextField, Typography } from '@mui/material'
 import React from 'react'
 
 const Login = () => {
 
   const classes = useLoginStyles()
 
-  const { toggleTheme } = useTheme()
-
   return (
     <div
       className={classes.content}
     >
-      <div
-        className={classes.card}
+      <Card
+        sx={{
+          padding: '32px 12px',
+          boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
+        }}
       >
         <Stack spacing={2}>
           <Typography variant='h4'>Welcome</Typography>
@@ -23,6 +23,9 @@ const Login = () => {
             placeholder='Type your email'
             label='Email'
             size='small'
+          // InputProps={{
+          //   classes: { input: classes.autoFill } only found when global autofill is not going
+          // }}
           />
           <TextField
             type='password'
@@ -45,8 +48,7 @@ const Login = () => {
             }}
           >Sign in</Button>
         </Stack>
-        <Button onClick={toggleTheme}>click me</Button >
-      </div>
+      </Card >
     </div>
   )
 }

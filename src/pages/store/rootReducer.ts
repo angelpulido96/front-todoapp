@@ -4,7 +4,7 @@ import { reducer as logedReducer } from '../slices/logedReducer'
 
 const rootReducer = combineReducers({
     user: userReducer,
-    loged: logedReducer
+    loged: logedReducer,
 })
 
 export default rootReducer;

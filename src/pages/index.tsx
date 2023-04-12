@@ -1,15 +1,19 @@
+import ChangeTheme from '@/modules/ChangeTheme'
+import { useHomeStyles } from '@/styles/useStyles/homeStyles'
 import Login from '../modules/Login'
 
+
+
 export default function Home() {
+
+  const classes = useHomeStyles()
+
   return (
-    <div style={{
-      width: '100%',
-      display: 'flex',
-      height: '100vh',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}>
-      <Login />
-    </div>
+    <>
+      <ChangeTheme />
+      <div className={classes.content}>
+        <Login />
+      </div>
+    </>
   )
 }

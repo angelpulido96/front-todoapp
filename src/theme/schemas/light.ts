@@ -1,13 +1,20 @@
 import { createTheme } from "@mui/material";
 
 export const lightTheme = createTheme({
-    palette: {
-        mode: 'light',
-        primary: {
-            main: '#2196f3'
+  palette: {
+    mode: 'light'
+  },
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          input: {
+            "&:-webkit-autofill": {
+              WebkitBoxShadow: "0 0 0 1000px white inset",
+            },
+          },
         },
-        secondary: {
-            main: '#f50057'
-        }
-    }
+      },
+    },
+  },
 });
