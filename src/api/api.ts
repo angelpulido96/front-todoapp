@@ -9,7 +9,7 @@ export const api = async (request: Request) => {
     const data = request.data ?? {}
     const filters = request.filters ? request.filters : ''
     const endpoint = request.endpoint || ''
-    const url = 'http://localhost:3000/' + endpoint + filters
+    const url = 'http://localhost:3002/api/' + request.resource + endpoint + filters
     const headers = {
       'Content-Type': 'application/json',
       ...request.headers,
@@ -26,8 +26,6 @@ export const api = async (request: Request) => {
     const response = await apiInstance(options)
     return response.data
   } catch (err: any) {
-    const error = Utils.parceJSON(err.response.data)
-
-    return error
+    return err.response.data
   }
 }

@@ -1,4 +1,4 @@
-import { Loged } from "@/interfaces/loged";
+import { Loged } from "@/interfaces/login";
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from '../store/index'
 
