@@ -1,10 +1,17 @@
 import { useLoginStyles } from '@/styles/useStyles/loginStyles'
 import { Button, Card, Stack, TextField, Typography } from '@mui/material'
+import { useRouter } from 'next/router'
 import React from 'react'
 
 const Login = () => {
 
   const classes = useLoginStyles()
+
+  const router = useRouter()
+
+  const handleLogin = () => {
+    router.push('/tasks')
+  }
 
   return (
     <div
@@ -36,6 +43,7 @@ const Login = () => {
           <Button
             variant='contained'
             size='small'
+            onClick={handleLogin}
             sx={{
               textTransform: 'none'
             }}
