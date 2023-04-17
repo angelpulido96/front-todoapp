@@ -28,6 +28,7 @@ const SnackbarrContext = ({ children }: Props) => {
 
   const handleClose = () => setSnackBarState({ open: false, message: '', error: false })
   const handleOpenSnack = (message: string, error?: Boolean) => {
+
     setSnackBarState({
       open: !!message,
       message: message,

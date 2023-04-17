@@ -1,16 +1,20 @@
 import { loginAPI } from '@/api/users.api'
-import { takeContext } from '@/context/snackbarContext'
+import { takeContext } from '@/context/SnackbarContext'
 import { Login } from '@/interfaces/login'
+import { setLoged } from '@/pages/slices/logedReducer'
 import Utils from '@/resources/Utils'
 import { useLoginStyles } from '@/styles/useStyles/loginStyles'
 import { Alert, Button, Card, Snackbar, Stack, TextField, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 
 const Login = () => {
 
   const classes = useLoginStyles()
+
+  const dispatch = useDispatch()
 
   const { showSnackBar } = takeContext()
 
@@ -26,7 +30,6 @@ const Login = () => {
 
   const [data, setData] = useState({ ...initialState })
   const [errors, setErrors] = useState({ ...initialErrors })
-
 
   const router = useRouter()
 
@@ -65,11 +68,11 @@ const Login = () => {
         if (request.error) {
           throw new Error(request.message)
         }
-        console.log(request.data)
+        dispatch(setLoged(request.data.user))
+        router.push('/tasks')
       }
     } catch (error: any) {
       showSnackBar(error.message, true)
-      console.log('Error: ', error.message)
     }
   }
 
@@ -110,6 +113,8 @@ const Login = () => {
               placeholder='Type your email'
               label='Email'
               size='small'
+              error={!!errors['email']}
+              helperText={errors['email']}
               value={data['email']}
               onChange={handleData}
             // InputProps={{
@@ -119,6 +124,8 @@ const Login = () => {
             <TextField
               id='password'
               type='password'
+              error={!!errors['password']}
+              helperText={errors['password']}
               placeholder='Type your password'
               label='Password'
               size='small'
