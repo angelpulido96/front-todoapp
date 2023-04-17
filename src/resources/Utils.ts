@@ -21,7 +21,13 @@ const parceJSON = (jsonString: string): any => {
   }
 }
 
+const isValidEmail = (email: string) => {
+  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  return regex.test(email);
+};
+
 export default {
-  objectToQueryString,
-  parceJSON
+  parceJSON,
+  isValidEmail,
+  objectToQueryString
 }

@@ -1,8 +1,11 @@
 import React from 'react'
+import MenuAppBar from '@/components/TopBar'
 
 const Tasks = () => {
   return (
-    <div>Tasks</div>
+    <>
+      <MenuAppBar />
+    </>
   )
 }
 
