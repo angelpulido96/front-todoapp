@@ -2,7 +2,7 @@ import { makeStyles } from '@mui/styles'
 import { Theme } from '@mui/material/styles'
 import { useTheme } from '@mui/material/styles'
 
-export const useLoginStyles = makeStyles((theme: Theme) => ({
+export const useSignupStyles = makeStyles((theme: Theme) => ({
   card: {
     textAlign: 'center',
     width: 400,
