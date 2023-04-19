@@ -27,7 +27,9 @@ const FileUploader = ({ file, disabled, ...props }: Props) => {
   }
 
   const [state, setState] = useState({ ...initialState })
+  const [dragCounter, setDragCounter] = useState(0)
   const fileFieldDocument = useRef<HTMLInputElement>(null)
+  const dragField = useRef<HTMLDivElement>(null)
 
   const handleAddFile = async (files: any) => {
     try {
@@ -48,7 +50,7 @@ const FileUploader = ({ file, disabled, ...props }: Props) => {
                 size: file.size,
                 width: image.width,
                 height: image.height,
-                base64: e.target?.result
+                url: e.target?.result
               }
               props.setFile(file)
               props.handleErrorFile && props.handleErrorFile()
@@ -70,7 +72,7 @@ const FileUploader = ({ file, disabled, ...props }: Props) => {
             fileName: file.name,
             type: file.type,
             size: file.size,
-            base64: newBAse
+            url: newBAse
           }
           props.setFile(file)
           props.handleErrorFile && props.handleErrorFile()
@@ -84,7 +86,55 @@ const FileUploader = ({ file, disabled, ...props }: Props) => {
   useEffect(() => {
     setState((prevState) => ({ ...prevState, id: utils.generateId() }))
     handleRender()
+
+    let div = dragField.current
+
+    div?.addEventListener('dragenter', handleDragIn)
+    div?.addEventListener('dragleave', handleDragOut)
+    div?.addEventListener('dragover', handleDrag)
+    div?.addEventListener('drop', handleDrop)
+
+    return () => {
+      div?.removeEventListener('dragenter', handleDragIn);
+      div?.removeEventListener('dragleave', handleDragOut);
+      div?.removeEventListener('dragover', handleDrag);
+      div?.removeEventListener('drop', handleDrop);
+    }
+
   }, [state.open])
+
+  const handleDrag = (e: DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
+  const handleDragIn = (e: DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragCounter(dragCounter + 1)
+    if (e.dataTransfer?.items && e.dataTransfer.items.length > 0) {
+      setState({ ...state, drag: true })
+    }
+  }
+  const handleDragOut = (e: DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragCounter(dragCounter - 1)
+    if (dragCounter === 0) {
+
+      setState({ ...state, drag: false })
+    }
+  }
+  const handleDrop = (e: DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setState({ ...state, drag: false })
+    if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
+      handleAddFile(e.dataTransfer.files)
+      e.dataTransfer.clearData()
+      setDragCounter(0)
+    }
+  }
 
   const handleRender = () => {
     const newTypes = utils.inputTypesAllowed(props.typesAccepted)
@@ -98,7 +148,7 @@ const FileUploader = ({ file, disabled, ...props }: Props) => {
         <Tooltip title={'Show image'}>
           <Button
             fullWidth>
-            <img src={file.base64} className={classes.image} />
+            <img src={file.url} className={classes.image} />
           </Button>
         </Tooltip>
       )
@@ -106,7 +156,7 @@ const FileUploader = ({ file, disabled, ...props }: Props) => {
       return (
         <div className={classes.alignCenter}>
           <Stack>
-            <iframe src={file.base64} style={{ width: '100%' }} />
+            <iframe src={file.url} style={{ width: '100%' }} />
           </Stack>
         </div>
       )
@@ -128,7 +178,7 @@ const FileUploader = ({ file, disabled, ...props }: Props) => {
         />
         <div>
           {
-            file.base64 ?
+            file.url ?
               <div className={classes.fileContainer}>
                 {handleRenderImage()}
                 < div className={classes.deleteButton}>
@@ -148,17 +198,19 @@ const FileUploader = ({ file, disabled, ...props }: Props) => {
                 </div>
               </div>
               :
-              <label htmlFor={state.id}>
-                <div className={state.drag ? classes.uploadImageDrag : classes.uploadImage} >
-                  <div className={classes.alignContent}>
-                    <div className={classes.uploadIcon}>
-                      <ImageIcon className={classes.alignCenter} />
+              <div ref={dragField}>
+                <label htmlFor={state.id}>
+                  <div className={state.drag ? classes.uploadImageDrag : classes.uploadImage} >
+                    <div className={classes.alignContent}>
+                      <div className={classes.uploadIcon}>
+                        <ImageIcon className={classes.alignCenter} />
+                      </div>
+                      <Typography variant='body1' align='center'>{props.description ? props.description : 'Drag or select your image'}</Typography>
+                      <Typography display="block" variant='caption' align='center'>{props.text}</Typography>
                     </div>
-                    <Typography variant='body1' align='center'>{props.description ? props.description : 'Drag or select your image'}</Typography>
-                    <Typography display="block" variant='caption' align='center'>{props.text}</Typography>
                   </div>
-                </div>
-              </label>
+                </label>
+              </div>
           }
         </div>
       </div>

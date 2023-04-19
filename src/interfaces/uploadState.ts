@@ -16,7 +16,7 @@ export interface File {
     size: Number,
     width?: Number,
     height?: Number,
-    base64: string
+    url: string
 }
 
 export type Props = {

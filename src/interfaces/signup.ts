@@ -4,7 +4,8 @@ export interface SingUp {
     secondLastName?: string,
     birthday: string,
     cellphone: string,
+    avatar?: object,
     email: string,
-    password: string,
+    password: string | boolean,
     confirmPassword: string
 }

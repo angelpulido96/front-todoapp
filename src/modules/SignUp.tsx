@@ -26,6 +26,7 @@ const SignUpModule = () => {
     secondLastName: '',
     birthday: '',
     cellphone: '',
+    avatar: {},
     email: '',
     password: '',
     confirmPassword: ''
@@ -36,11 +37,11 @@ const SignUpModule = () => {
     size: 0,
     width: 0,
     height: 0,
-    base64: '',
+    url: '',
     fileName: ''
   }
 
-  const initialErrors = {
+  const initialErrors: SingUp = {
     name: '',
     firstLastName: '',
     birthday: '',
@@ -89,6 +90,11 @@ const SignUpModule = () => {
       newErrors.confirmPassword = "Can't be empty"
     }
 
+    if (data.password !== data.confirmPassword) {
+      newErrors.password = true
+      newErrors.confirmPassword = "Passwords are diferent"
+    }
+
     setErrors(newErrors)
 
     return Object.values(newErrors).every(error => !error)
@@ -97,15 +103,18 @@ const SignUpModule = () => {
 
   const handleSignup = async () => {
     setLogin(true)
+    if (file.url) {
+      data['avatar'] = file
+    }
     const isValid = validationData()
     try {
       if (isValid) {
-        const request = await loginAPI.login(data)
+        const request = await loginAPI.signup(data)
         if (request.error) {
           throw new Error(request.message)
         }
-        dispatch(setLoged(request.data.user))
-        router.push('/tasks')
+        showSnackBar('User created', false)
+        router.push('/')
       }
     } catch (error: any) {
       showSnackBar(error.message, true)
@@ -146,9 +155,6 @@ const SignUpModule = () => {
     setFile({ ...initialFile })
   }
 
-  const handleErrorFile = () => {
-    setErrors((prevState) => ({ ...prevState, avatar: '' }))
-  }
 
   return (
     <form onKeyDown={handleKeyDown}>
@@ -236,6 +242,7 @@ const SignUpModule = () => {
               placeholder='Type your email'
               label='Email'
               size='small'
+              autoComplete="off"
               error={!!errors['email']}
               helperText={errors['email']}
               value={data['email']}
@@ -251,14 +258,13 @@ const SignUpModule = () => {
           <Stack direction='row' spacing={1}>
             <TextField
               id='password'
-              autoComplete='off'
-              InputProps={{ autoComplete: "off" }}
               type='password'
               error={!!errors['password']}
               helperText={errors['password']}
               placeholder='Type your password'
               label='Password'
               disabled={login}
+              autoComplete="off"
               size='small'
               value={data['password']}
               onChange={handleData}
@@ -271,6 +277,7 @@ const SignUpModule = () => {
               placeholder='Confirm your password'
               label='Confirm password'
               size='small'
+              autoComplete="off"
               disabled={login}
               value={data['confirmPassword']}
               onChange={handleData}
@@ -280,8 +287,7 @@ const SignUpModule = () => {
             file={file}
             setFile={setFile}
             handleDeleteImage={handleDeleteImage}
-            typesAccepted={['pdf', 'images']}
-            handleErrorFile={handleErrorFile}
+            typesAccepted={['images']}
             disabled={login}
           />
           <Button
