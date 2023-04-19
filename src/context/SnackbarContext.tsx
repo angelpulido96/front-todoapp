@@ -46,7 +46,7 @@ const SnackbarrContext = ({ children }: Props) => {
         <Snackbar
           open={snackBarState.open}
           onClose={handleClose}
-          autoHideDuration={5000}
+          autoHideDuration={3000}
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           action={
             <IconButton

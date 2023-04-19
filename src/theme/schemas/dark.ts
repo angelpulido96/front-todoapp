@@ -23,4 +23,9 @@ export const darkTheme = createTheme({
       },
     },
   },
+  typography: {
+    button: {
+      textTransform: 'none',
+    },
+  }
 });

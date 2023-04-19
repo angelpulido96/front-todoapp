@@ -6,7 +6,7 @@ import Utils from '@/resources/Utils'
 import { useLoginStyles } from '@/styles/useStyles/loginStyles'
 import { Alert, Button, Card, Snackbar, Stack, TextField, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 
@@ -94,63 +94,62 @@ const Login = () => {
     }
   }
 
+  const handleSignUp = () => router.push('/signup')
+
   return (
-    <div
-      className={classes.content}
-    >
-      <form onKeyDown={handleKeyDown}>
-        <Card
-          sx={{
-            padding: '32px 12px',
-            boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
-          }}
-        >
-          <Stack spacing={2}>
-            <Typography variant='h4'>Welcome</Typography>
-            <Typography >Type your email and password to log in</Typography>
-            <TextField
-              id='email'
-              placeholder='Type your email'
-              label='Email'
-              size='small'
-              error={!!errors['email']}
-              helperText={errors['email']}
-              value={data['email']}
-              onChange={handleData}
-            // InputProps={{
-            //   classes: { input: classes.autoFill } only found when global autofill is not going
-            // }}
-            />
-            <TextField
-              id='password'
-              type='password'
-              error={!!errors['password']}
-              helperText={errors['password']}
-              placeholder='Type your password'
-              label='Password'
-              size='small'
-              value={data['password']}
-              onChange={handleData}
-            />
-            <Button
-              variant='contained'
-              size='small'
-              onClick={handleLogin}
-              sx={{
-                textTransform: 'none'
-              }}
-            >Login</Button>
-            <Button
-              color='secondary'
-              size='small'
-              sx={{
-                textTransform: 'none'
-              }}
-            >Sign in</Button>
-          </Stack>
-        </Card >
-      </form>
-    </div>
+    <form onKeyDown={handleKeyDown}>
+      <Card
+        className={classes.card}
+        sx={{
+          boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
+        }}
+      >
+        <Stack spacing={2}>
+          <Typography variant='h4'>Welcome</Typography>
+          <Typography >Type your email and password to log in</Typography>
+          <TextField
+            id='email'
+            placeholder='Type your email'
+            label='Email'
+            size='small'
+            error={!!errors['email']}
+            helperText={errors['email']}
+            value={data['email']}
+            onChange={handleData}
+          // InputProps={{
+          //   classes: { input: classes.autoFill } only found when global autofill is not going
+          // }}
+          />
+          <TextField
+            id='password'
+            type='password'
+            error={!!errors['password']}
+            helperText={errors['password']}
+            placeholder='Type your password'
+            label='Password'
+            size='small'
+            value={data['password']}
+            onChange={handleData}
+          />
+          <Button
+            variant='contained'
+            size='small'
+            onClick={handleLogin}
+            sx={{
+              textTransform: 'none'
+            }}
+          >Login</Button>
+          <Button
+            color='secondary'
+            size='small'
+            onClick={handleSignUp}
+            sx={{
+              textTransform: 'none'
+            }}
+          >Sign in</Button>
+        </Stack>
+      </Card >
+    </form>
   )
 }
 
