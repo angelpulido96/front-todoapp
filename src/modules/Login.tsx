@@ -1,12 +1,12 @@
-import { loginAPI } from '@/api/users.api'
 import { takeContext } from '@/context/SnackbarContext'
 import { Login } from '@/interfaces/login'
-import { setLoged } from '@/pages/slices/logedReducer'
+import { loginUser } from '@/pages/slices/logedReducer'
+import { AppDispatch } from '@/pages/store'
 import Utils from '@/resources/Utils'
 import { useLoginStyles } from '@/styles/useStyles/loginStyles'
-import { Alert, Button, Card, Snackbar, Stack, TextField, Typography } from '@mui/material'
+import { Button, Card, Stack, TextField, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 
@@ -14,7 +14,7 @@ const Login = () => {
 
   const classes = useLoginStyles()
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
   const { showSnackBar } = takeContext()
 
@@ -64,11 +64,7 @@ const Login = () => {
     const isValid = validationData()
     try {
       if (isValid) {
-        const request = await loginAPI.login(data)
-        if (request.error) {
-          throw new Error(request.message)
-        }
-        dispatch(setLoged(request.data.user))
+        await dispatch(loginUser(data))
         router.push('/tasks')
       }
     } catch (error: any) {
