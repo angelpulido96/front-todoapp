@@ -15,8 +15,6 @@ const initialState: Loged = {
   }
 }
 
-
-
 export const loginUser = createAsyncThunk<Loged, Login, { rejectValue: Payload }>(
   'store/loginUser',
   async (data: Login, { getState, rejectWithValue }) => {
@@ -27,6 +25,10 @@ export const loginUser = createAsyncThunk<Loged, Login, { rejectValue: Payload }
       if (response.error) {
         throw response
       }
+
+      const isLoged = true
+      document.cookie = `isLoged=${isLoged};}; path=/`;
+
       return response.data.user
     } catch (err: any) {
       return rejectWithValue(err)
@@ -58,12 +60,14 @@ export const logedSlice = createSlice({
       state.avatar = {
         url: ''
       }
+      const isLoged = false
+      document.cookie = `isLoged=${isLoged};}; path=/`;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state) => {
 
-    });
+    })
     builder.addCase(loginUser.fulfilled, (state, action) => {
       const { id, name, firstLastName, secondLastName, cellphone, email, avatar } = action.payload
 
@@ -74,15 +78,15 @@ export const logedSlice = createSlice({
       state.cellphone = cellphone
       state.email = email
       state.avatar = avatar
-    });
+    })
     builder.addCase(loginUser.rejected, (state, action) => {
       if (action.payload) {
         throw new Error(action.payload.message)
       }
-    });
+    })
 
   }
-});
+})
 
 export const selectLoged = (state: RootState) => state.loged
 
