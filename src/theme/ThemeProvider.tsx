@@ -35,7 +35,10 @@ const ThemeProviderContext = ({ children }: Props) => {
   let value = 'light' as ObjectKey
 
   if (typeof window !== 'undefined') {
-    value = window.localStorage.getItem('theme') as ObjectKey
+    const newValue = window.localStorage.getItem('theme') as ObjectKey
+    if (newValue) {
+      value = newValue
+    }
   }
 
   const [theme, setTheme] = useState(themeList[value])
@@ -53,11 +56,11 @@ const ThemeProviderContext = ({ children }: Props) => {
         toggleTheme
       }} >
       <ThemeProvider theme={theme}>
-        <CssBaseline />
         <Head>
           <title>Practice</title>
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         </Head>
+        <CssBaseline />
         {children}
       </ThemeProvider>
     </ThemeContext.Provider >

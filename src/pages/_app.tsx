@@ -6,6 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor } from '../pages/store/index'
 
 export default function App({ Component, pageProps }: AppProps) {
+
   return (
     <ThemeContext>
       <Provider store={store}>
