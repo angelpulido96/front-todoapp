@@ -69,9 +69,8 @@ export const logedSlice = createSlice({
 
     })
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      const { id, name, firstLastName, secondLastName, cellphone, email, avatar } = action.payload
-
-      state.id = id
+      const { _id, name, firstLastName, secondLastName, cellphone, email, avatar } = action.payload
+      state.id = _id
       state.name = name
       state.firstLastName = firstLastName
       state.secondLastName = secondLastName

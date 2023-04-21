@@ -1,3 +1,4 @@
+import Navbar from '@/components/Navbar'
 import SnackbarrContext from '@/context/SnackbarContext'
 import ThemeContext from '@/theme/ThemeProvider'
 import type { AppProps } from 'next/app'
@@ -8,14 +9,15 @@ import { store, persistor } from '../pages/store/index'
 export default function App({ Component, pageProps }: AppProps) {
 
   return (
-    <ThemeContext>
-      <Provider store={store}>
+    <Provider store={store}>
+      <ThemeContext>
         <SnackbarrContext>
           <PersistGate loading={null} persistor={persistor}>
+            <Navbar />
             <Component {...pageProps} />
           </PersistGate>
         </SnackbarrContext>
-      </Provider>
-    </ThemeContext>
+      </ThemeContext>
+    </Provider>
   )
 }
