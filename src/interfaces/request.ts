@@ -1,7 +1,7 @@
 export interface Request {
   resource: string,
   method: string,
-  data: Object,
+  data?: Object,
   endpoint?: string,
   headers?: Object,
   filters?: string

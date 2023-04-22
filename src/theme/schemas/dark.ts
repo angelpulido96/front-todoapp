@@ -1,7 +1,20 @@
 import { createTheme } from "@mui/material";
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    tableHeader: Palette['primary'];
+  }
+
+  interface PaletteOptions {
+    tableHeader: PaletteOptions['primary'];
+  }
+
+}
+
 const themeColors = {
   primary: '#B6A5A5',
   secondary: "#F2EFEF",
+  tableHeader: '#000',
   success: "#57CA22",
   warning: "#FFA319",
   info: "#33C2FF",
@@ -37,7 +50,10 @@ export const darkTheme = createTheme({
     },
     error: {
       main: themeColors.error,
-    }
+    },
+    tableHeader: {
+      main: themeColors.tableHeader
+    },
   },
   components: {
     MuiTextField: {

@@ -11,5 +11,12 @@ export const tasksAPI = {
       endpoint: '/',
       data
     })
+  },
+  getTasks: async (filters: any) => {
+    return await api({
+      resource,
+      method: 'GET',
+      endpoint: `?query=${filters}`,
+    })
   }
 } 
