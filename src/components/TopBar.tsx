@@ -10,6 +10,7 @@ import Menu from '@mui/material/Menu'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearLoged, selectLoged } from '@/pages/slices/logedReducer'
+import { deleteCookie } from 'cookies-next'
 
 const MenuAppBar = () => {
 
@@ -29,10 +30,12 @@ const MenuAppBar = () => {
     setAnchorEl(null)
   }
 
-  const handleLogout = () => {
-    router.push('/')
+  const handleLogout = async () => {
+    deleteCookie('authorization')
+    deleteCookie('refreshToken')
     handleClose()
     dispatch(clearLoged())
+    router.push('/')
   }
 
   return (

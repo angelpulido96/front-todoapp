@@ -20,7 +20,7 @@ const Tasks = () => {
       if (request.error) {
         throw new Error(request.error.message)
       }
-      console.log("🚀 ~ handleGetTasks ~ request:", request)
+      // console.log("🚀 ~ handleGetTasks ~ request:", request)
     } catch (error: any) {
       showSnackBar(error.message, true)
     }
