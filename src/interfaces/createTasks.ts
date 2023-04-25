@@ -1,6 +1,7 @@
 export interface Props {
     open: boolean,
     handleClose: () => void
+    handleGetTasks: () => {}
 }
 
 export interface Task {
