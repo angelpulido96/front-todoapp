@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import MenuAppBar from '@/components/TopBar'
 import { Button } from '@mui/material'
 import CreateTasks from '@/components/CreateTasks'
 import Table from '@/components/Table'
@@ -10,15 +9,13 @@ const Tasks = () => {
 
   const { showSnackBar } = takeContext()
 
-  const [openModal, setOpenModal] = useState(false)
   const [tasks, setTasks] = useState([])
+  const [openModal, setOpenModal] = useState(false)
+  const handleOpenModal = () => setOpenModal(!openModal)
 
-  const handleOpenModal = () => {
+  useEffect(() => {
     handleGetTasks()
-    setOpenModal(!openModal)
-  }
-
-
+  }, [])
 
   const handleGetTasks = async () => {
     try {
@@ -31,10 +28,6 @@ const Tasks = () => {
       showSnackBar(error.message, true)
     }
   }
-
-  useEffect(() => {
-    handleGetTasks()
-  }, [])
 
   const columns = [
     { id: 'title', label: 'Title', size: 'xs' },
