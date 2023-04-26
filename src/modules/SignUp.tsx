@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { loginAPI } from '@/api/users.api'
 import { takeContext } from '@/context/SnackbarContext'
-import { setLoged } from '@/pages/slices/logedReducer'
 import Utils from '@/resources/Utils'
-import { Button, Card, Stack, TextField, Typography } from '@mui/material'
+import { Card, Stack, TextField, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { useSignupStyles } from '@/styles/useStyles/signupStyles'
 import { SingUp } from '@/interfaces/signup'
 import FileUpload from '@/components/FileUpload'
 import { File } from '@/interfaces/uploadState'
+import { PrimaryButton, SecondaryButton } from '@/components/styles/Buttons'
 
 const SignUpModule = () => {
 
@@ -290,22 +290,22 @@ const SignUpModule = () => {
             typesAccepted={['images']}
             disabled={login}
           />
-          <Button
+          <SecondaryButton
             variant='contained'
             size='small'
             onClick={handleSignup}
             sx={{
               textTransform: 'none'
             }}
-          >Sign Up</Button>
-          <Button
+          >Sign Up</SecondaryButton>
+          <PrimaryButton
             color='secondary'
             size='small'
             onClick={handleSignUp}
             sx={{
               textTransform: 'none',
             }}
-          >Already have an account?</Button>
+          >Already have an account?</PrimaryButton>
         </Stack>
       </Card >
     </form >

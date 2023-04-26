@@ -1,17 +1,21 @@
 import axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
 import { setupInterceptorsTo } from './interceptors'
 import { Request } from '@/interfaces/request'
-import Utils from '@/resources/Utils'
+import { getCookie } from 'cookies-next'
 
 
 export const api = async (request: Request) => {
   try {
+
+    const token = getCookie('authorization')
+
     const data = request.data ?? {}
     const filters = request.filters ? request.filters : ''
     const endpoint = request.endpoint || ''
     const url = 'http://localhost:3002/api/' + request.resource + endpoint + filters
     const headers = {
       'Content-Type': 'application/json',
+      'Authorization': token ?? '',
       ...request.headers,
     } as AxiosRequestHeaders
 

@@ -4,10 +4,13 @@ import { loginUser } from '@/pages/slices/logedReducer'
 import { AppDispatch } from '@/pages/store'
 import Utils from '@/resources/Utils'
 import { useLoginStyles } from '@/styles/useStyles/loginStyles'
-import { Button, Card, Stack, TextField, Typography } from '@mui/material'
+import { Card, IconButton, Stack, TextField, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import { PrimaryButton, SecondaryButton } from '@/components/styles/Buttons'
 
 
 const Login = () => {
@@ -29,6 +32,7 @@ const Login = () => {
   }
 
   const [data, setData] = useState({ ...initialState })
+  const [showPass, setShowPass] = useState(false)
   const [errors, setErrors] = useState({ ...initialErrors })
 
   const router = useRouter()
@@ -92,6 +96,8 @@ const Login = () => {
 
   const handleSignUp = () => router.push('/signup')
 
+  const handleShowPass = () => setShowPass(!showPass)
+
   return (
     <form onKeyDown={handleKeyDown}>
       <Card
@@ -118,7 +124,7 @@ const Login = () => {
           />
           <TextField
             id='password'
-            type='password'
+            type={showPass ? 'text' : 'password'}
             error={!!errors['password']}
             helperText={errors['password']}
             placeholder='Type your password'
@@ -126,23 +132,36 @@ const Login = () => {
             size='small'
             value={data['password']}
             onChange={handleData}
+            InputProps={{
+              endAdornment:
+                <IconButton
+                  onClick={handleShowPass}
+                >
+                  {
+                    showPass ?
+                      <VisibilityOffOutlinedIcon />
+                      :
+                      <RemoveRedEyeOutlinedIcon />
+                  }
+                </IconButton>
+            }}
           />
-          <Button
+          <SecondaryButton
             variant='contained'
             size='small'
             onClick={handleLogin}
             sx={{
               textTransform: 'none'
             }}
-          >Login</Button>
-          <Button
+          >Login</SecondaryButton>
+          <PrimaryButton
             color='secondary'
             size='small'
             onClick={handleSignUp}
             sx={{
               textTransform: 'none'
             }}
-          >Sign in</Button>
+          >Sign in</PrimaryButton>
         </Stack>
       </Card >
     </form>

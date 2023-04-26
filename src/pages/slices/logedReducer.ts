@@ -26,8 +26,8 @@ export const loginUser = createAsyncThunk<Loged, Login, { rejectValue: Payload }
         throw response
       }
 
-      const isLoged = true
-      document.cookie = `isLoged=${isLoged};}; path=/`;
+      document.cookie = `authorization=${response.data.user.token};}; path=/`;
+      document.cookie = `refreshToken=${response.data.user.refreshToken};}; path=/`;
 
       return response.data.user
     } catch (err: any) {
@@ -60,8 +60,6 @@ export const logedSlice = createSlice({
       state.avatar = {
         url: ''
       }
-      const isLoged = false
-      document.cookie = `isLoged=${isLoged};}; path=/`;
     },
   },
   extraReducers: (builder) => {
@@ -69,9 +67,8 @@ export const logedSlice = createSlice({
 
     })
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      const { id, name, firstLastName, secondLastName, cellphone, email, avatar } = action.payload
-
-      state.id = id
+      const { _id, name, firstLastName, secondLastName, cellphone, email, avatar } = action.payload
+      state.id = _id
       state.name = name
       state.firstLastName = firstLastName
       state.secondLastName = secondLastName

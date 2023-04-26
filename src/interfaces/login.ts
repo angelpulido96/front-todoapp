@@ -13,7 +13,8 @@ export interface Payload {
 }
 
 export interface Loged {
-    id: string,
+    _id?: string,
+    id: string | undefined,
     name: string,
     firstLastName: string,
     secondLastName: string,
