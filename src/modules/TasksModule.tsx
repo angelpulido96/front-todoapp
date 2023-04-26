@@ -13,7 +13,10 @@ const Tasks = () => {
   const [openModal, setOpenModal] = useState(false)
   const [tasks, setTasks] = useState([])
 
-  const handleOpenModal = () => setOpenModal(!openModal)
+  const handleOpenModal = () => {
+    handleGetTasks()
+    setOpenModal(!openModal)
+  }
 
 
 
@@ -34,10 +37,10 @@ const Tasks = () => {
   }, [])
 
   const columns = [
-    { id: 'title', label: 'Title', size: 'xl' },
+    { id: 'title', label: 'Title', size: 'xs' },
     { id: 'description', label: 'Description' },
-    { id: 'limitDate', label: 'Limit date', size: 'xl', type: 'date' },
-    { id: 'createdBy.name', label: 'Created by', size: 'xl' },
+    { id: 'limitDate', label: 'Limit date', type: 'date', size: 'xs' },
+    { id: 'createdBy.name', label: 'Create By', size: 'xs' }
   ];
 
   return (

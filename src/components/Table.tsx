@@ -1,4 +1,4 @@
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Typography } from '@mui/material';
+import { IconButton, Paper, Rating, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Typography } from '@mui/material';
 import React from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -20,7 +20,6 @@ const CustomTable = (props: Props) => {
 
 
   const handleValue = (row: any, col: any) => {
-
     let value = row
     let keys = col.id.split('.')
 
@@ -60,18 +59,20 @@ const CustomTable = (props: Props) => {
             {
               props.rows.map((row, index) => (
                 <TableRow key={index}>
-                  {props.columns.map((column, index) => (
-                    <TableCell
-                      key={index}
-                      align='center'
-                      sx={{
-                        minWidth: (column.size === 'xs') ? 128 : (column.size === 'sm') ? 160 : (column.size === 'md') ? 192 : 224,
-                        maxWidth: (column.size === 'xs') ? 128 : (column.size === 'sm') ? 160 : (column.size === 'md') ? 192 : 224
-                      }}
-                    >
-                      <Typography variant='body1'>{handleValue(row, column)}</Typography>
-                    </TableCell>
-                  ))}
+                  {
+                    props.columns.map((column, index) => (
+                      <TableCell
+                        key={index}
+                        align='center'
+                        sx={{
+                          minWidth: (column.size === 'xs') ? 128 : (column.size === 'sm') ? 160 : (column.size === 'md') ? 192 : 224,
+                          maxWidth: (column.size === 'xs') ? 128 : (column.size === 'sm') ? 160 : (column.size === 'md') ? 192 : 224
+                        }}
+                      >
+                        <Typography variant='body1'>{handleValue(row, column)}</Typography>
+                      </TableCell>
+                    ))
+                  }
                   <TableCell
                     size='small'
                     align='center'>
@@ -82,13 +83,13 @@ const CustomTable = (props: Props) => {
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>
-                </TableRow>
+                </TableRow >
               ))
             }
-          </TableBody>
+          </TableBody >
         </Table >
       </TableContainer >
-    </div>
+    </div >
   )
 }
 
