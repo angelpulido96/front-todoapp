@@ -4,6 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { StyledTableCell } from './styles/Table';
 import dayjs from 'dayjs';
+import { CompleteTask } from '@/interfaces/createTasks';
 
 
 interface MyObject<T> {
@@ -14,7 +15,8 @@ interface MyObject<T> {
 interface Props {
   columns: MyObject<any>[],
   rows: MyObject<any>[],
-  onEdit: (item: any) => void
+  onEdit: (item: any) => void,
+  onDelete: (item: CompleteTask) => void
 }
 
 const CustomTable = (props: Props) => {
@@ -82,7 +84,9 @@ const CustomTable = (props: Props) => {
                     >
                       <EditIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton
+                      onClick={() => props.onDelete(row._id)}
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>

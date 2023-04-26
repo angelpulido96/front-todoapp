@@ -1,12 +1,8 @@
 import dayjs, { Dayjs } from 'dayjs';
+
 export interface Props {
     open: boolean,
-    task: {
-        _id?: string,
-        title: string,
-        description: string,
-        limitDate: dayjs.Dayjs | null
-    } | null,
+    task: CompleteTask | null | string,
     handleClose: () => void
     handleGetTasks: () => {}
 }

@@ -20,6 +20,13 @@ export const tasksAPI = {
       data
     })
   },
+  deleteTask: async (id: string) => {
+    return await api({
+      resource,
+      method: 'PATCH',
+      endpoint: `/delete/${id}`
+    })
+  },
   getTasks: async (filters: any) => {
     return await api({
       resource,

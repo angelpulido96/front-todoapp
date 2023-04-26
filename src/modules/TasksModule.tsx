@@ -4,14 +4,17 @@ import CreateEditTasks from '@/components/CreateEditTasks'
 import Table from '@/components/Table'
 import { tasksAPI } from '@/api/tasks.api'
 import { takeContext } from '@/context/SnackbarContext'
+import ConfirmModal from '@/components/ConfirmModal'
+import { CompleteTask } from '@/interfaces/createTasks'
 
 const Tasks = () => {
 
   const { showSnackBar } = takeContext()
 
   const [tasks, setTasks] = useState([])
-  const [task, setTask] = useState(null)
+  const [task, setTask] = useState<CompleteTask | null | string>(null)
   const [openModal, setOpenModal] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
   useEffect(() => {
     handleGetTasks()
@@ -35,9 +38,35 @@ const Tasks = () => {
     setTask(null)
   }
 
-  const handleEditModal = (item: any) => {
+  const handleEditModal = (item: CompleteTask) => {
     setOpenModal(true)
     setTask(item)
+  }
+
+  const handleDeleteTask = async () => {
+    try {
+      let id = typeof task === 'string' ? task : ''
+      const request = await tasksAPI.deleteTask(id)
+      if (request.error) {
+        throw new Error(request.error.message)
+      }
+      showSnackBar('Task deleted', false)
+      setTask(null)
+      setConfirmDelete(false)
+      handleGetTasks()
+    } catch (error: any) {
+      showSnackBar(error.message, true)
+    }
+  }
+
+  const handleConfirmDelete = (item: CompleteTask) => {
+    setTask(item)
+    setConfirmDelete(true)
+  }
+
+  const handleCloseDeleteModal = () => {
+    setTask(null)
+    setConfirmDelete(false)
   }
 
   const columns = [
@@ -62,12 +91,20 @@ const Tasks = () => {
         columns={columns}
         rows={tasks}
         onEdit={handleEditModal}
+        onDelete={handleConfirmDelete}
       />
       <CreateEditTasks
         open={openModal}
         task={task}
         handleClose={handleCloseModal}
         handleGetTasks={handleGetTasks}
+      />
+      <ConfirmModal
+        open={confirmDelete}
+        title='Delete task?'
+        description='Are you sure?. If delete this task, can"t will show again'
+        onConfirm={handleDeleteTask}
+        handleClose={handleCloseDeleteModal}
       />
     </>
   )
