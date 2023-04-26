@@ -14,6 +14,9 @@ const ConfirmModal = (props: Props) => {
   return (
     <Dialog
       open={props.open}
+      PaperProps={{
+        style: { padding: 12 }
+      }}
     >
       <DialogTitle>
         <Typography>{props.title}</Typography>

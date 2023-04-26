@@ -13,8 +13,6 @@ import { tasksAPI } from '@/api/tasks.api';
 import { useSelector } from 'react-redux';
 import { selectLoged } from '@/pages/slices/logedReducer';
 
-
-
 const CreateEditTasks = ({ open, task, ...props }: Props) => {
 
   const { showSnackBar } = takeContext()

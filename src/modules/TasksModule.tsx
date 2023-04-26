@@ -6,13 +6,14 @@ import { tasksAPI } from '@/api/tasks.api'
 import { takeContext } from '@/context/SnackbarContext'
 import ConfirmModal from '@/components/ConfirmModal'
 import { CompleteTask } from '@/interfaces/createTasks'
+import Head from '@/components/Head'
 
 const Tasks = () => {
 
   const { showSnackBar } = takeContext()
 
   const [tasks, setTasks] = useState([])
-  const [task, setTask] = useState<CompleteTask | null | string>(null)
+  const [task, setTask] = useState<CompleteTask | null>(null)
   const [openModal, setOpenModal] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
 
@@ -78,15 +79,11 @@ const Tasks = () => {
 
   return (
     <>
-      <Button
-        variant='outlined'
-        onClick={handleOpenModal}
-        style={{
-          position: 'absolute',
-          top: 80,
-          right: 12
-        }}
-      >Add task</Button>
+      <Head
+        handleAction={handleOpenModal}
+        label='Search'
+        placeholder='By title or created by...'
+      />
       <Table
         columns={columns}
         rows={tasks}
