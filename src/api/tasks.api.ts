@@ -12,6 +12,14 @@ export const tasksAPI = {
       data
     })
   },
+  editTask: async (data: CompleteTask) => {
+    return await api({
+      resource,
+      method: 'PATCH',
+      endpoint: '/',
+      data
+    })
+  },
   getTasks: async (filters: any) => {
     return await api({
       resource,

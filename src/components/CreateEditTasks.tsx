@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Props, Task } from '@/interfaces/createTasks'
 import { Dialog, DialogActions, DialogContent, TextField, Typography } from '@mui/material'
 import { Stack } from '@mui/system';
@@ -15,7 +15,7 @@ import { selectLoged } from '@/pages/slices/logedReducer';
 
 
 
-const CreateTasks = ({ open, ...props }: Props) => {
+const CreateEditTasks = ({ open, task, ...props }: Props) => {
 
   const { showSnackBar } = takeContext()
 
@@ -37,6 +37,17 @@ const CreateTasks = ({ open, ...props }: Props) => {
 
   const [loading, setLoading] = useState(false)
   const [limitDate, setLimitDate] = React.useState<Dayjs | null>(dayjs(new Date()))
+
+  useEffect(() => {
+    if (task) {
+      setState({
+        title: task.title,
+        description: task.description
+      })
+      setLimitDate(dayjs(task?.limitDate))
+    }
+  }, [task])
+
 
   const handleValidation = async () => {
     const newErrors = { ...errors }
@@ -74,9 +85,16 @@ const CreateTasks = ({ open, ...props }: Props) => {
       const isValid = await handleValidation()
 
       if (isValid) {
-        const createTasks = await tasksAPI.createTask(isValid)
-        if (createTasks.error) {
-          throw new Error(createTasks.message)
+        if (task) {
+          const editTask = await tasksAPI.editTask({ ...isValid, id: task._id })
+          if (editTask.error) {
+            throw new Error(editTask.message)
+          }
+        } else {
+          const createTasks = await tasksAPI.createTask(isValid)
+          if (createTasks.error) {
+            throw new Error(createTasks.message)
+          }
         }
         handleClose()
         props.handleGetTasks()
@@ -197,4 +215,4 @@ const CreateTasks = ({ open, ...props }: Props) => {
   )
 }
 
-export default CreateTasks
+export default CreateEditTasks

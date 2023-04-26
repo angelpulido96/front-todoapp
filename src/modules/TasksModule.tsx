@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from '@mui/material'
-import CreateTasks from '@/components/CreateTasks'
+import CreateEditTasks from '@/components/CreateEditTasks'
 import Table from '@/components/Table'
 import { tasksAPI } from '@/api/tasks.api'
 import { takeContext } from '@/context/SnackbarContext'
@@ -10,8 +10,8 @@ const Tasks = () => {
   const { showSnackBar } = takeContext()
 
   const [tasks, setTasks] = useState([])
+  const [task, setTask] = useState(null)
   const [openModal, setOpenModal] = useState(false)
-  const handleOpenModal = () => setOpenModal(!openModal)
 
   useEffect(() => {
     handleGetTasks()
@@ -27,6 +27,17 @@ const Tasks = () => {
     } catch (error: any) {
       showSnackBar(error.message, true)
     }
+  }
+  const handleOpenModal = () => setOpenModal(true)
+
+  const handleCloseModal = () => {
+    setOpenModal(false)
+    setTask(null)
+  }
+
+  const handleEditModal = (item: any) => {
+    setOpenModal(true)
+    setTask(item)
   }
 
   const columns = [
@@ -50,10 +61,12 @@ const Tasks = () => {
       <Table
         columns={columns}
         rows={tasks}
+        onEdit={handleEditModal}
       />
-      <CreateTasks
+      <CreateEditTasks
         open={openModal}
-        handleClose={handleOpenModal}
+        task={task}
+        handleClose={handleCloseModal}
         handleGetTasks={handleGetTasks}
       />
     </>

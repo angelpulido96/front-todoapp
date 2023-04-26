@@ -13,7 +13,8 @@ interface MyObject<T> {
 
 interface Props {
   columns: MyObject<any>[],
-  rows: MyObject<any>[]
+  rows: MyObject<any>[],
+  onEdit: (item: any) => void
 }
 
 const CustomTable = (props: Props) => {
@@ -76,7 +77,9 @@ const CustomTable = (props: Props) => {
                   <TableCell
                     size='small'
                     align='center'>
-                    <IconButton>
+                    <IconButton
+                      onClick={() => props.onEdit(row)}
+                    >
                       <EditIcon />
                     </IconButton>
                     <IconButton>
