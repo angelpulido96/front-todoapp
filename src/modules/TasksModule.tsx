@@ -11,8 +11,14 @@ const Tasks = () => {
   const { showSnackBar } = takeContext()
 
   const [openModal, setOpenModal] = useState(false)
+  const [tasks, setTasks] = useState([])
 
-  const handleOpenModal = () => setOpenModal(!openModal)
+  const handleOpenModal = () => {
+    handleGetTasks()
+    setOpenModal(!openModal)
+  }
+
+
 
   const handleGetTasks = async () => {
     try {
@@ -20,7 +26,7 @@ const Tasks = () => {
       if (request.error) {
         throw new Error(request.error.message)
       }
-      // console.log("🚀 ~ handleGetTasks ~ request:", request)
+      setTasks(request.data.tasks)
     } catch (error: any) {
       showSnackBar(error.message, true)
     }
@@ -31,12 +37,10 @@ const Tasks = () => {
   }, [])
 
   const columns = [
-    { id: 'colonia', label: 'Colonia' },
-    { id: 'estado', label: 'Estado' },
-    { id: 'total', label: 'Total' },
-    { id: 'dato1', label: 'Dato1' },
-    { id: 'dato2', label: 'Dato2' },
-    { id: 'dato3', label: 'Dato3' },
+    { id: 'title', label: 'Title', size: 'xs' },
+    { id: 'description', label: 'Description' },
+    { id: 'limitDate', label: 'Limit date', type: 'date', size: 'xs' },
+    { id: 'createdBy.name', label: 'Create By', size: 'xs' }
   ];
 
   return (
@@ -50,13 +54,14 @@ const Tasks = () => {
           right: 12
         }}
       >Add task</Button>
-      {/* <Table
+      <Table
         columns={columns}
-        rows={sales}
-      /> */}
+        rows={tasks}
+      />
       <CreateTasks
         open={openModal}
         handleClose={handleOpenModal}
+        handleGetTasks={handleGetTasks}
       />
     </>
   )

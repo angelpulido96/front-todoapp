@@ -79,6 +79,7 @@ const CreateTasks = ({ open, ...props }: Props) => {
           throw new Error(createTasks.message)
         }
         handleClose()
+        props.handleGetTasks()
         showSnackBar('Task created', false)
       }
     } catch (error: any) {
