@@ -25,6 +25,7 @@ const onResponseError = async (error: AxiosError<MyErrorResponse>): Promise<Axio
   if (error.response?.status === 401) {
     const request = await authorizatonAPI.refreshToken({ token, refreshToken })
     setCookie('authorization', request.data.accessToken)
+    Router.reload()
   } else {
     deleteCookie('authorization')
     deleteCookie('refreshToken')
