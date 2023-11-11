@@ -1,6 +1,6 @@
-import { Dialog, DialogActions, DialogContentText, DialogTitle, Typography } from '@mui/material'
 import React from 'react'
 import { PrimaryButton, SecondaryButton } from './styles/Buttons'
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 
 interface Props<T = undefined> {
   open: boolean,
@@ -16,11 +16,13 @@ const ConfirmModal = (props: Props) => {
       open={props.open}
     >
       <DialogTitle>
-        <Typography>{props.title}</Typography>
+        {props.title}
       </DialogTitle>
-      <DialogContentText>
-        <Typography>{props.description}</Typography>
-      </DialogContentText>
+      <DialogContent>
+        <DialogContentText>
+          {props.description}
+        </DialogContentText>
+      </DialogContent>
       <DialogActions>
         <SecondaryButton
           onClick={props.handleClose}
